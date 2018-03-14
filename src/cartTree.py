@@ -88,7 +88,7 @@ def calBinaryForContinousProperty(target, dataset, propIndex):
     last_entropy = 0
     index = 0
     sorted_list = sorted(colomn_list)
-    logger.info("sorted list:%s", sorted_list)
+    logger.debug("sorted list:%s", sorted_list)
     for j in range(len(colomn_list)):
         if j != 0 and j != length - 1:
             colomn_left = np.array(sorted(colomn_list)[:j])
@@ -120,24 +120,21 @@ def calGain(target, dataset, propIndex):
     left_set = []
     right_set = []
     for index in range(len(all_data)):
-        item = all_data[index + 1:propIndex + 1]
+        item = all_data[[index], [propIndex]]
         if item < divided_point:
             left_set.append(all_data[index])
         elif item > divided_point:
             right_set.append(all_data[index])
-    print(type(shape[1]))
-    print(type(shape[0]))
     col = shape[1] - 1
-    print(left_set)
-    # left_target = np.array(left_set)[:, 3]
-    # right_target = np.array(right_set)[:, 3]
-    # gain = entropy - (len(left_set) * CalcEntropy(left_target) + len(right_set) * CalcEntropy(right_target)) / len(
-    #     all_data)
-    # return gain
+    left_target = np.array(left_set)[:, col]
+    right_target = np.array(right_set)[:, col]
+    gain = entropy - (len(left_set) * CalcEntropy(left_target) + len(right_set) * CalcEntropy(right_target)) / len(
+        all_data)
+    return gain
 
 
 data, target = loadData()
-gain = calGain(target, data, 0)
+gain = calGain(target, data, 3)
 print(gain)
 # divided_point = calBinaryForContinousProperty(target, data, 3)
 # print(divided_point)
