@@ -7,6 +7,7 @@ import sys
 
 logger = logging.getLogger("CartTree")
 # 指定logger输出格式
+
 formatter = logging.Formatter('%(asctime)s %(levelname)-8s: %(message)s')
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.formatter = formatter
